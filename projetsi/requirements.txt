@@ -6,3 +6,4 @@ django-crispy-forms
 django-recaptcha
 pillow
 six
+reportlab
