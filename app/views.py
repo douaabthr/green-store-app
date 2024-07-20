@@ -25,7 +25,7 @@ from django.http import HttpResponse
 
 from decimal import Decimal
 from django.shortcuts import render, redirect
-from .forms import PaymentAchatFormForAjout  # Assurez-vous d'importer le formulaire correctement
+from .forms import PaymentAchatFormForAjout 
 
 def payerAchat(request):
     if request.method == 'POST':
@@ -1632,7 +1632,7 @@ def indexView(request):
     else :
         pourCentageBenefice=valeur_benefice*100/total_ventes
     
-    return render(request,"index.html",{
+    return render(request,"layout/index.html",{
                                         "nb_notification":nb_notification,
                                         "form":form,"total_ventes":total_ventes,
                                         "total_Achat":total_achat,

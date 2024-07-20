@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-    {% load static %}
+{% load static %}
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,156 +17,160 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
-::after,
-::before {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+    ::after,
+    ::before {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
 
 
-a {
-    text-decoration: none;
-}
+    a {
+        text-decoration: none;
+    }
 
-li {
-    list-style: none;
-}
+    li {
+        list-style: none;
+    }
 
-h1 {
-    font-weight: 600;
-    font-size: 1.5rem;
-}
+    h1 {
+        font-weight: 600;
+        font-size: 1.5rem;
+    }
 
-body {
-    font-family: 'Poppins', sans-serif;
+    body {
+        font-family: 'Poppins', sans-serif;
 
-}
+    }
 
-.wrapper {
-    display: flex;
-}
-a{
-    color: #FFF;
-}
-.main {
-    min-height: 100vh;
-    width: 100%;
-    overflow: hidden;
-    transition: all 0.35s ease-in-out;
-    background-color: #fafbfe;
-}
+    .wrapper {
+        display: flex;
+    }
 
-#sidebar {
-    width: 70px;
-    min-width: 70px;
-    z-index: 1000;
-    transition: all .25s ease-in-out;
-    background-color: #43766C;
-    display: flex;
-    flex-direction: column;
+    a {
+        color: #FFF;
+    }
 
-}
+    .main {
+        min-height: 100vh;
+        width: 100%;
+        overflow: hidden;
+        transition: all 0.35s ease-in-out;
+        background-color: #fafbfe;
+    }
 
-#sidebar.expand {
-    width: 260px;
-    min-width: 260px;
-}
+    #sidebar {
+        width: 70px;
+        min-width: 70px;
+        z-index: 1000;
+        transition: all .25s ease-in-out;
+        background-color: #43766C;
+        display: flex;
+        flex-direction: column;
 
-.toggle-btn {
-    background-color: transparent;
-    cursor: pointer;
-    border: 0;
-    padding: 1rem 1.5rem;
-}
+    }
 
-.toggle-btn i {
-    font-size: 1.5rem;
-    color: #FFF;
-}
+    #sidebar.expand {
+        width: 260px;
+        min-width: 260px;
+    }
 
-.sidebar-logo {
-    margin: auto 0;
-}
+    .toggle-btn {
+        background-color: transparent;
+        cursor: pointer;
+        border: 0;
+        padding: 1rem 1.5rem;
+    }
 
-.sidebar-logo a {
-    color: #FFF;
-    font-size: 1.15rem;
-    font-weight: 600;
-}
+    .toggle-btn i {
+        font-size: 1.5rem;
+        color: #FFF;
+    }
 
-#sidebar:not(.expand) .sidebar-logo,
-#sidebar:not(.expand) a.sidebar-link span {
-    display: none;
-}
+    .sidebar-logo {
+        margin: auto 0;
+    }
 
-.sidebar-nav {
-    padding: 2rem 0;
-    flex: 1 1 auto;
-    margin-top: -30px;
-}
+    .sidebar-logo a {
+        color: #FFF;
+        font-size: 1.15rem;
+        font-weight: 600;
+    }
 
-a.sidebar-link {
-    padding: .625rem 1.625rem;
-    color: #FFF;
-    display: block;
-    font-size: 0.9rem;
-    white-space: nowrap;
-    border-left: 3px solid transparent;
-}
+    #sidebar:not(.expand) .sidebar-logo,
+    #sidebar:not(.expand) a.sidebar-link span {
+        display: none;
+    }
 
-.sidebar-link i {
-    font-size: 1.1rem;
-    margin-right: .75rem;
-}
+    .sidebar-nav {
+        padding: 2rem 0;
+        flex: 1 1 auto;
+        margin-top: -30px;
+    }
 
-a.sidebar-link:hover {
-    background-color: rgba(255, 255, 255, .075);
-    border-left: 3px solid #3b7ddd;
-}
+    a.sidebar-link {
+        padding: .625rem 1.625rem;
+        color: #FFF;
+        display: block;
+        font-size: 0.9rem;
+        white-space: nowrap;
+        border-left: 3px solid transparent;
+    }
 
-.sidebar-item {
-    position: relative;
-}
+    .sidebar-link i {
+        font-size: 1.1rem;
+        margin-right: .75rem;
+    }
 
-#sidebar:not(.expand) .sidebar-item .sidebar-dropdown {
-    position: absolute;
-    top: 0;
-    left: 70px;
-    background-color: #0e2238;
-    padding: 0;
-    min-width: 15rem;
-    display: none;
-}
+    a.sidebar-link:hover {
+        background-color: rgba(255, 255, 255, .075);
+        border-left: 3px solid #3b7ddd;
+    }
 
-#sidebar:not(.expand) .sidebar-item:hover .has-dropdown+.sidebar-dropdown {
-    display: block;
-    max-height: 15em;
-    width: 100%;
-    opacity: 1;
-}
+    .sidebar-item {
+        position: relative;
+    }
 
-#sidebar.expand .sidebar-link[data-bs-toggle="collapse"]::after {
-    border: solid;
-    border-width: 0 .075rem .075rem 0;
-    content: "";
-    display: inline-block;
-    padding: 2px;
-    position: absolute;
-    right: 1.5rem;
-    top: 1.4rem;
-    transform: rotate(-135deg);
-    transition: all .2s ease-out;
-}
+    #sidebar:not(.expand) .sidebar-item .sidebar-dropdown {
+        position: absolute;
+        top: 0;
+        left: 70px;
+        background-color: #0e2238;
+        padding: 0;
+        min-width: 15rem;
+        display: none;
+    }
 
-#sidebar.expand .sidebar-link[data-bs-toggle="collapse"].collapsed::after {
-    transform: rotate(45deg);
-    transition: all .2s ease-out;
-}
-.cart-icon {
-        font-size: 60px; 
+    #sidebar:not(.expand) .sidebar-item:hover .has-dropdown+.sidebar-dropdown {
+        display: block;
+        max-height: 15em;
+        width: 100%;
+        opacity: 1;
+    }
+
+    #sidebar.expand .sidebar-link[data-bs-toggle="collapse"]::after {
+        border: solid;
+        border-width: 0 .075rem .075rem 0;
+        content: "";
+        display: inline-block;
+        padding: 2px;
+        position: absolute;
+        right: 1.5rem;
+        top: 1.4rem;
+        transform: rotate(-135deg);
+        transition: all .2s ease-out;
+    }
+
+    #sidebar.expand .sidebar-link[data-bs-toggle="collapse"].collapsed::after {
+        transform: rotate(45deg);
+        transition: all .2s ease-out;
+    }
+
+    .cart-icon {
+        font-size: 60px;
         color: #DF826C;
     }
+
     .sidebar-logo img {
         width: 10px;
         height: 10px;
@@ -177,18 +182,21 @@ a.sidebar-link:hover {
     }
 
     .logo-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 90%;
-}
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 90%;
+    }
 
-.logo-container img {
-    width: 110px; /* Ajustez la taille initiale de l'image */
-    height: 110px; /* Ajustez la taille initiale de l'image */ 
-    margin-bottom: 0px;
-}
+    .logo-container img {
+        width: 110px;
+        /* Ajustez la taille initiale de l'image */
+        height: 110px;
+        /* Ajustez la taille initiale de l'image */
+        margin-bottom: 0px;
+    }
 </style>
+
 <body>
     <div class="wrapper">
         <aside id="sidebar">
@@ -200,31 +208,31 @@ a.sidebar-link:hover {
             <ul class="sidebar-nav">
                 <!-- Analyse Section -->
                 <li class="sidebar-item">
-                    <li class="sidebar-item">
-                        <a href="{% url 'home' %}" class="sidebar-link">
-                            <i class="lni lni-home"></i>
-                            <span>Home</span>
-                        </a>
-                    </li>
-                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                        data-bs-target="#analyse" aria-expanded="false" aria-controls="analyse">
-                        <i class="lni lni-bar-chart"></i>
-                        <span>Analyse</span>
+                <li class="sidebar-item">
+                    <a href="{% url 'home' %}" class="sidebar-link">
+                        <i class="lni lni-home"></i>
+                        <span>Home</span>
                     </a>
-                    <ul id="analyse" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="sidebar-item">
-                            <a href="{% url 'analyseGenerale' %}" class="sidebar-link">Magasin</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="{% url 'analyseCentre' %}" class="sidebar-link">Centres</a>
-                        </li>
-                    </ul>
                 </li>
-        
+                <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                    data-bs-target="#analyse" aria-expanded="false" aria-controls="analyse">
+                    <i class="lni lni-bar-chart"></i>
+                    <span>Analyse</span>
+                </a>
+                <ul id="analyse" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <li class="sidebar-item">
+                        <a href="{% url 'analyseGenerale' %}" class="sidebar-link">Magasin</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="{% url 'analyseCentre' %}" class="sidebar-link">Centres</a>
+                    </li>
+                </ul>
+                </li>
+
                 <!-- Stock Section -->
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                        data-bs-target="#stock" aria-expanded="false" aria-controls="stock">                        
+                        data-bs-target="#stock" aria-expanded="false" aria-controls="stock">
                         <i class="lni lni-archive"></i>
                         <span>Stock</span>
                     </a>
@@ -237,7 +245,7 @@ a.sidebar-link:hover {
                         </li>
                     </ul>
                 </li>
-        
+
                 <!-- Fournisseurs Section -->
                 <li class="sidebar-item">
                     <a href="{% url 'listFournisseurs' %}" class="sidebar-link">
@@ -245,7 +253,7 @@ a.sidebar-link:hover {
                         <span>Fournisseur</span>
                     </a>
                 </li>
-        
+
                 <!-- Clients Section -->
                 <li class="sidebar-item">
                     <a href="{% url 'listClients' %}" class="sidebar-link">
@@ -253,7 +261,7 @@ a.sidebar-link:hover {
                         <span>Client</span>
                     </a>
                 </li>
-        
+
                 <!-- Employés Section -->
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
@@ -340,7 +348,7 @@ a.sidebar-link:hover {
                         </li>
                     </ul>
                 </li>
-        
+
                 <li class="sidebar-item">
                     <a href="{% url 'Transfert' %}" class="sidebar-link">
                         <i class="lni lni-grow"></i>
@@ -354,7 +362,7 @@ a.sidebar-link:hover {
                         <span>Ventes</span>
                     </a>
                 </li>
-        
+
                 <!-- Achats Section -->
                 <li class="sidebar-item">
                     <a href="{% url 'achat' %}" class="sidebar-link">
@@ -362,7 +370,7 @@ a.sidebar-link:hover {
                         <span>Achats</span>
                     </a>
                 </li>
-        
+
                 <!-- Règlement Section -->
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
@@ -379,15 +387,15 @@ a.sidebar-link:hover {
                         </li>
                     </ul>
                 </li>
-        
+
                 <!-- Notifications Section -->
                 <li class="sidebar-item">
                     <a href="{% url 'notification' %}" class="sidebar-link">
                         <i class="lni lni-popup"></i>
-                        <span>Notifications  +{{ nb_notification }}</span>
+                        <span>Notifications +{{ nb_notification }}</span>
                     </a>
                 </li>
-        
+
                 <!-- Paramètres Section -->
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
@@ -395,7 +403,7 @@ a.sidebar-link:hover {
                         <span>Paramètres</span>
                     </a>
                 </li>
-        
+
                 <!-- Logout Section -->
                 <li class="sidebar-item">
                     <a href="{% url 'logout' %}" class="sidebar-link">
@@ -413,46 +421,49 @@ a.sidebar-link:hover {
             <div class="text-center">
                 {% if message_succe %}
                 <div class="alert alert-success  alert-dismissible fade show" role="alert">
-                    <strong></strong> <p style="color: green;">{{message_succe}}</p>
+                    <strong></strong>
+                    <p style="color: green;">{{message_succe}}</p>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-            {% endif %}
-            {% if message1 %}
-            <div class="alert alert-danger  alert-dismissible fade show" role="alert">
-                <strong></strong> <p style="color: black;">{{message1}}</p>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        {% endif %}
+                {% endif %}
+                {% if message1 %}
+                <div class="alert alert-danger  alert-dismissible fade show" role="alert">
+                    <strong></strong>
+                    <p style="color: black;">{{message1}}</p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
 
                 <div class="container d-flex justify-content-center align-items-center vh-100">
                     <div class="card">
-                      <div class="card-body">
-                        <h2 class="card-title">Ajouter Achat</h2>
-                        <form method="post" >
-                            <label for="prd">Matiere premiere</label>
-                            <input list="list_produits" id="prd" name="prd" />
-                            
-                            <datalist id="list_produits">
-                                {%for p in produits%}
-                                <option value="{{p.id}}"><span>{{p.designation_matiere}}</span></option>
-                                {%endfor%}
-                            </datalist>
+                        <div class="card-body">
+                            <h2 class="card-title">Ajouter Achat</h2>
+                            <form method="post">
+                                <label for="prd">Matiere premiere</label>
+                                <input list="list_produits" id="prd" name="prd" />
 
-                        {% csrf_token %}
-                          {{ form.as_p }}
-                          <input class="btn btn-success btn-pink" type="submit" value="Save">
-                          <button class="btn btn-success btn-pink"><a href="{% url 'ajouterFournisseur' %}" class="add">+ Fournisseur</a></button>
-                          <button class="btn btn-primary" onclick="retournerPagePrecedente()">Retour</button>                      
+                                <datalist id="list_produits">
+                                    {%for p in produits%}
+                                    <option value="{{p.id}}"><span>{{p.designation_matiere}}</span></option>
+                                    {%endfor%}
+                                </datalist>
 
-                        </form>
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                <input class="btn btn-success btn-pink" type="submit" value="Save">
+                                <button class="btn btn-success btn-pink"><a href="{% url 'ajouterFournisseur' %}"
+                                        class="add">+ Fournisseur</a></button>
+                                <button class="btn btn-primary" onclick="retournerPagePrecedente()">Retour</button>
 
-                          <br>
-                        
+                            </form>
 
-        
-                      </div>
+                            <br>
+
+
+
+                        </div>
                     </div>
-                  </div>
+                </div>
             </div>
         </div>
     </div>
@@ -461,40 +472,41 @@ a.sidebar-link:hover {
         crossorigin="anonymous"></script>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-crossorigin="anonymous"></script>
+    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+    crossorigin="anonymous"></script>
 </body>
 <script>
     function retournerPagePrecedente() {
-    // Rediriger vers l'URL spécifiée ('listClient' dans cet exemple)
-    window.location.href = '/achat';
-}
-const hamBurger = document.querySelector(".toggle-btn");
+        // Rediriger vers l'URL spécifiée ('listClient' dans cet exemple)
+        window.location.href = '/achat';
+    }
+    const hamBurger = document.querySelector(".toggle-btn");
 
-hamBurger.addEventListener("click", function () {
-document.querySelector("#sidebar").classList.toggle("expand");
-});
+    hamBurger.addEventListener("click", function () {
+        document.querySelector("#sidebar").classList.toggle("expand");
+    });
 
-function imageCliquable() {
-const hamBurger = document.querySelector(".toggle-btn");
+    function imageCliquable() {
+        const hamBurger = document.querySelector(".toggle-btn");
 
-hamBurger.addEventListener("click", function () {
-document.querySelector("#sidebar").classList.toggle("expand");
+        hamBurger.addEventListener("click", function () {
+            document.querySelector("#sidebar").classList.toggle("expand");
 
-var div = document.getElementById("monDiv");
+            var div = document.getElementById("monDiv");
 
-// Changer le contenu du div
-div.innerHTML = "<button class=\"toggle-btn\" type=\"button\" ><i class=\"lni lni-grid-alt\"></i></button>";
+            // Changer le contenu du div
+            div.innerHTML = "<button class=\"toggle-btn\" type=\"button\" ><i class=\"lni lni-grid-alt\"></i></button>";
 
-});
-}
+        });
+    }
 
-function changerContenu() {
-// Sélectionner le div
-var div = document.getElementById("monDiv");
+    function changerContenu() {
+        // Sélectionner le div
+        var div = document.getElementById("monDiv");
 
-// Changer le contenu du div
-div.innerHTML = "<button class=\"toggle-btn\" type=\"button\"><div class=\"sidebar-logo\"><a href=\"\" class=\"logo-container\"><img  src=\"{% static 'img/Greenlogo.png' %}\" alt=\"Green Logo\" onclick=\"imageCliquable()\"></a></div> </button>";
-}
+        // Changer le contenu du div
+        div.innerHTML = "<button class=\"toggle-btn\" type=\"button\"><div class=\"sidebar-logo\"><a href=\"\" class=\"logo-container\"><img  src=\"{% static 'img/Greenlogo.png' %}\" alt=\"Green Logo\" onclick=\"imageCliquable()\"></a></div> </button>";
+    }
 </script>
+
 </html>
