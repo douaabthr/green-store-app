@@ -22,10 +22,35 @@ from .forms import ProduitForm1,MatiereForm1,ClientForm1,FournisseurForm1,Employ
 from .models import Produit,Client,Fournisseur,Centre,Employe,Achat,Transfert,VenteP,Absent,Massrouf,MatierePremiere,VenteM
 from decimal import Decimal
 from django.http import HttpResponse
-
 from decimal import Decimal
 from django.shortcuts import render, redirect
-from .forms import PaymentAchatFormForAjout 
+from .forms import PaymentAchatFormForAjout
+from django.shortcuts import render, redirect
+from .forms import PaymentVenteFormForAjout 
+from itertools import chain
+from django.shortcuts import render
+from django.db.models import Q
+from .models import Produit, Achat
+from .forms import FiltreStockForm
+from .models import VenteP
+from .models import VenteM
+from .forms import VentePForm
+from .forms import VenteMForm
+from django.shortcuts import render
+from django.db.models import Q
+from .models import Produit, Achat
+from .forms import FiltreStockForm
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from .models import Produit, Achat
+from .forms import FiltreStockForm
+from django.db.models import Q
+from io import BytesIO
+from reportlab.pdfgen import canvas
+from .forms import FiltreVentePForm
+from .models import MatierePremiere
+
+
 
 def payerAchat(request):
     if request.method == 'POST':
@@ -48,10 +73,6 @@ def payerAchat(request):
 
     return render(request, "paymentAchat.html", {'form': form})
 
-
-
-from django.shortcuts import render, redirect
-from .forms import PaymentVenteFormForAjout
 
 def payerVente(request):
     if request.method == 'POST':
@@ -282,7 +303,7 @@ def supprimer_achat(request, achat_id):
 #***********************************************************************
 
 
-from itertools import chain
+
 
 def fiche_journal_ventes_interport(request):
     ventes = VenteM.objects.all()
@@ -320,7 +341,7 @@ def fiche_journal_ventes_interport(request):
         'form': form
     })
 
-from .forms import FiltreVentePForm
+
 def fiche_journal_ventes_centre1(request):
     ventes = VenteP.objects.filter(lieu_ventes__codeC='c1')
     if ventes:
@@ -637,31 +658,6 @@ def supprimer_vente_mat(request, vente_id):
     return render(request, 'supprimerItem.html', {'vente': vente,'msg':'Vente'})
 
 
-from django.shortcuts import render
-from django.db.models import Q
-from .models import Produit, Achat
-from .forms import FiltreStockForm
-from .models import VenteP
-from .models import VenteM
-from .forms import VentePForm
-from .forms import VenteMForm
-
-
-
-
-from django.shortcuts import render
-from django.db.models import Q
-from .models import Produit, Achat
-from .forms import FiltreStockForm
-
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from .models import Produit, Achat
-from .forms import FiltreStockForm
-from django.db.models import Q
-from io import BytesIO
-from reportlab.pdfgen import canvas
-
 def generate_pdf(matieres):
     buffer = BytesIO()
     p = canvas.Canvas(buffer)
@@ -680,7 +676,7 @@ def generate_pdf(matieres):
 
     return buffer
 
-from .models import MatierePremiere
+
 
 def fiche_journal_Stock(request):
     matieres = MatierePremiere.objects.all()
@@ -813,6 +809,11 @@ def supprimer_produit(request,produit_id):
 ##############FOURNISEUR#############################################
 from .models import Fournisseur
 from .forms import FournisseurForm
+from .models import Centre
+from .forms import CentreForm 
+from django.shortcuts import render, redirect
+from .models import Employe
+from .forms import EmployeForm 
 
 def fiche_jornal_fournisseurs(request):
     produits = Fournisseur.objects.all()
@@ -910,8 +911,6 @@ def supprimer_client(request, client_id):
 
 #####################CENTRE##########################
 
-from .models import Centre
-from .forms import CentreForm 
 
 def fiche_jornal_centres(request):
     centres = Centre.objects.all()
@@ -962,9 +961,7 @@ def supprimer_centre(request, centre_id):
 
 # views.py
 
-from django.shortcuts import render, redirect
-from .models import Employe
-from .forms import EmployeForm  # Assurez-vous d'avoir un formulaire approprié défini dans forms.py
+ # Assurez-vous d'avoir un formulaire approprié défini dans forms.py
 
 def fiche_jornal_employes(request):
     employes = Employe.objects.all()
@@ -1013,6 +1010,10 @@ def supprimer_employe(request, employe_id):
 
 from .models import Transfert
 from .forms import MatiereForm
+from .models import Transfert
+from .forms import FiltreTransfertRecuForm 
+from .models import Ingridiant
+from decimal import Decimal
 
 def fiche_journal_transferts(request):
     transferts = Transfert.objects.all()
@@ -1051,7 +1052,7 @@ def fiche_journal_transferts(request):
         'form': form
     })
 
-from .models import Transfert
+
 
 def supprimer_transfert(request, transfert_id):
     transfert = Transfert.objects.get(pk=transfert_id)
@@ -1090,9 +1091,7 @@ def modifier_transfert(request, transfert_id):
         form = TransfertForm(instance=transfert)
         return render(request, 'modifierItem.html', {'form': form,'msg':'Trasfert'})
     
-from .forms import FiltreTransfertRecuForm 
-from .models import Ingridiant
-from decimal import Decimal
+
 
 def fiche_journal_transferts_recu_centre1(request):
     transferts = Transfert.objects.filter(centre__codeC='c1')
@@ -1318,14 +1317,11 @@ from .forms import UserCreationForm
 from .forms import CreateUserForm
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout 
-
-# django_project/users/views.py
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.core.mail import EmailMessage
-
 from .tokens import account_activation_token
 
 def activateEmail(request, user, to_email):
