@@ -11,170 +11,173 @@
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="../static/img/Greenlogo.png">
-    <link rel="stylesheet" href="link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="link rel=" preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap" rel="stylesheet">
-{% load static %}
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap" rel="stylesheet">
+    {% load static %}
 </head>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
     :root {
-			--vertprcpl: #43766C;
-  			--vertsecdr: #9fc8aa;
-			--beige:#EEE7DA;
-			--blanc:#fafbfe;
-		}
-::after,
-::before {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+        --vertprcpl: #43766C;
+        --vertsecdr: #9fc8aa;
+        --beige: #EEE7DA;
+        --blanc: #fafbfe;
+    }
 
-a {
-    text-decoration: none;
-}
+    ::after,
+    ::before {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
 
-li {
-    list-style: none;
-}
+    a {
+        text-decoration: none;
+    }
 
-h1 {
-    font-weight: 600;
-    font-size: 1.5rem;
-}
+    li {
+        list-style: none;
+    }
 
-body {
-    font-family: 'Poppins', sans-serif;
+    h1 {
+        font-weight: 600;
+        font-size: 1.5rem;
+    }
 
-}
+    body {
+        font-family: 'Poppins', sans-serif;
 
-.wrapper {
-    display: flex;
-}
+    }
 
-.main {
-    min-height: 100vh;
-    width: 100%;
-    overflow: hidden;
-    transition: all 0.35s ease-in-out;
-    background-color: #fafbfe;
-}
+    .wrapper {
+        display: flex;
+    }
 
-#sidebar {
-    width: 70px;
-    min-width: 70px;
-    z-index: 1000;
-    transition: all .25s ease-in-out;
-    background-color: #43766C;
-    display: flex;
-    flex-direction: column;
-}
+    .main {
+        min-height: 100vh;
+        width: 100%;
+        overflow: hidden;
+        transition: all 0.35s ease-in-out;
+        background-color: #fafbfe;
+    }
 
-#sidebar.expand {
-    width: 260px;
-    min-width: 260px;
-}
+    #sidebar {
+        width: 70px;
+        min-width: 70px;
+        z-index: 1000;
+        transition: all .25s ease-in-out;
+        background-color: #43766C;
+        display: flex;
+        flex-direction: column;
+    }
 
-.toggle-btn {
-    background-color: transparent;
-    cursor: pointer;
-    border: 0;
-    padding: 1rem 1.5rem;
-}
+    #sidebar.expand {
+        width: 260px;
+        min-width: 260px;
+    }
 
-.toggle-btn i {
-    font-size: 1.5rem;
-    color: #FFF;
-}
+    .toggle-btn {
+        background-color: transparent;
+        cursor: pointer;
+        border: 0;
+        padding: 1rem 1.5rem;
+    }
 
-.sidebar-logo {
-    margin: auto 0;
-}
+    .toggle-btn i {
+        font-size: 1.5rem;
+        color: #FFF;
+    }
 
-.sidebar-logo a {
-    color: #FFF;
-    font-size: 1.15rem;
-    font-weight: 600;
-}
+    .sidebar-logo {
+        margin: auto 0;
+    }
 
-#sidebar:not(.expand) .sidebar-logo,
-#sidebar:not(.expand) a.sidebar-link span {
-    display: none;
-}
+    .sidebar-logo a {
+        color: #FFF;
+        font-size: 1.15rem;
+        font-weight: 600;
+    }
 
-.sidebar-nav {
-    padding: 2rem 0;
-    flex: 1 1 auto;
-    margin-top: -30px;
-}
+    #sidebar:not(.expand) .sidebar-logo,
+    #sidebar:not(.expand) a.sidebar-link span {
+        display: none;
+    }
 
-a.sidebar-link {
-    padding: .625rem 1.625rem;
-    color: #FFF;
-    display: block;
-    font-size: 0.9rem;
-    white-space: nowrap;
-    border-left: 3px solid transparent;
-}
+    .sidebar-nav {
+        padding: 2rem 0;
+        flex: 1 1 auto;
+        margin-top: -30px;
+    }
 
-.sidebar-link i {
-    font-size: 1.1rem;
-    margin-right: .75rem;
-}
+    a.sidebar-link {
+        padding: .625rem 1.625rem;
+        color: #FFF;
+        display: block;
+        font-size: 0.9rem;
+        white-space: nowrap;
+        border-left: 3px solid transparent;
+    }
 
-a.sidebar-link:hover {
-    background-color: rgba(255, 255, 255, .075);
-    border-left: 3px solid #3b7ddd;
-}
+    .sidebar-link i {
+        font-size: 1.1rem;
+        margin-right: .75rem;
+    }
 
-.sidebar-item {
-    position: relative;
-}
+    a.sidebar-link:hover {
+        background-color: rgba(255, 255, 255, .075);
+        border-left: 3px solid #3b7ddd;
+    }
 
-#sidebar:not(.expand) .sidebar-item .sidebar-dropdown {
-    position: absolute;
-    top: 0;
-    left: 70px;
-    background-color: #0e2238;
-    padding: 0;
-    min-width: 15rem;
-    display: none;
-}
+    .sidebar-item {
+        position: relative;
+    }
 
-#sidebar:not(.expand) .sidebar-item:hover .has-dropdown+.sidebar-dropdown {
-    display: block;
-    max-height: 15em;
-    width: 100%;
-    opacity: 1;
-}
+    #sidebar:not(.expand) .sidebar-item .sidebar-dropdown {
+        position: absolute;
+        top: 0;
+        left: 70px;
+        background-color: #0e2238;
+        padding: 0;
+        min-width: 15rem;
+        display: none;
+    }
 
-#sidebar.expand .sidebar-link[data-bs-toggle="collapse"]::after {
-    border: solid;
-    border-width: 0 .075rem .075rem 0;
-    content: "";
-    display: inline-block;
-    padding: 2px;
-    position: absolute;
-    right: 1.5rem;
-    top: 1.4rem;
-    transform: rotate(-135deg);
-    transition: all .2s ease-out;
-}
+    #sidebar:not(.expand) .sidebar-item:hover .has-dropdown+.sidebar-dropdown {
+        display: block;
+        max-height: 15em;
+        width: 100%;
+        opacity: 1;
+    }
 
-#sidebar.expand .sidebar-link[data-bs-toggle="collapse"].collapsed::after {
-    transform: rotate(45deg);
-    transition: all .2s ease-out;
-}
+    #sidebar.expand .sidebar-link[data-bs-toggle="collapse"]::after {
+        border: solid;
+        border-width: 0 .075rem .075rem 0;
+        content: "";
+        display: inline-block;
+        padding: 2px;
+        position: absolute;
+        right: 1.5rem;
+        top: 1.4rem;
+        transform: rotate(-135deg);
+        transition: all .2s ease-out;
+    }
+
+    #sidebar.expand .sidebar-link[data-bs-toggle="collapse"].collapsed::after {
+        transform: rotate(45deg);
+        transition: all .2s ease-out;
+    }
 
 
-.sidebar-logo img {
+    .sidebar-logo img {
         width: 10px;
         height: 10px;
     }
- .sidebar-logo img {
+
+    .sidebar-logo img {
         width: 10px;
         height: 10px;
     }
@@ -185,258 +188,49 @@ a.sidebar-link:hover {
     }
 
     .logo-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 90%;
-}
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 90%;
+    }
 
-.logo-container img {
-    width: 110px; /* Ajustez la taille initiale de l'image */
-    height: 110px; /* Ajustez la taille initiale de l'image */ 
-    margin-bottom: 0px;
-}
-
+    .logo-container img {
+        width: 110px;
+        /* Ajustez la taille initiale de l'image */
+        height: 110px;
+        /* Ajustez la taille initiale de l'image */
+        margin-bottom: 0px;
+    }
 </style>
+
 <body>
     <div class="wrapper">
-        <aside id="sidebar">
-            <div id="monDiv">
-                <button class="toggle-btn" type="button" onclick="changerContenu()">
-                    <i class="lni lni-grid-alt"></i>
-                </button>
-            </div>
-            <ul class="sidebar-nav">
-                <li class="sidebar-item">
-                    <a href="{% url 'home' %}" class="sidebar-link">
-                        <i class="lni lni-home"></i>
-                        <span>Home</span>
-                    </a>
-                </li>
-                <!-- Analyse Section -->
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                        data-bs-target="#analyse" aria-expanded="false" aria-controls="analyse">
-                        <i class="lni lni-bar-chart"></i>
-                        <span>Analyse</span>
-                    </a>
-                    <ul id="analyse" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="sidebar-item">
-                            <a href="{% url 'analyseGenerale' %}" class="sidebar-link">Magasin</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="{% url 'analyseCentre' %}" class="sidebar-link">Centres</a>
-                        </li>
-                    </ul>
-                </li>
-        
-                <!-- Stock Section -->
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                        data-bs-target="#stock" aria-expanded="false" aria-controls="stock">                        
-                        <i class="lni lni-archive"></i>
-                        <span>Stock</span>
-                    </a>
-                    <ul id="stock" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="sidebar-item">
-                            <a href="{% url 'stock' %}" class="sidebar-link">Matière Première</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="{% url 'listProduits' %}" class="sidebar-link">Produit</a>
-                        </li>
-                    </ul>
-                </li>
-        
-                <!-- Fournisseurs Section -->
-                <li class="sidebar-item">
-                    <a href="{% url 'listFournisseurs' %}" class="sidebar-link">
-                        <i class="lni lni-handshake"></i>
-                        <span>Fournisseur</span>
-                    </a>
-                </li>
-        
-                <!-- Clients Section -->
-                <li class="sidebar-item">
-                    <a href="{% url 'listClients' %}" class="sidebar-link">
-                        <i class="lni lni-handshake"></i>
-                        <span>Client</span>
-                    </a>
-                </li>
-        
-                <!-- Employés Section -->
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                        data-bs-target="#auth" aria-expanded="false" aria-controls="auth">
-                        <i class="lni lni-users"></i>
-                        <span>Employé</span>
-                    </a>
-                    <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="sidebar-item">
-                            <a href="{% url 'listEmployes' %}" class="sidebar-link">Liste</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="{% url 'systemePointage' %}" class="sidebar-link">Pointage</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="{% url 'Salaire' %}" class="sidebar-link">Calcul Salaire</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="sidebar-item">
-                    <a href="" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                        data-bs-target="#multi" aria-expanded="false" aria-controls="multi">
-                        <i class="lni lni-apartment"></i>
-                        <span>Centre</span>
-                    </a>
-                    <ul id="multi" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="sidebar-item">
-                            <a href="{% url 'listCentres' %}" class="sidebar-link">
-                                <i class="lni lni-notepad"></i>
-                                <span>information centres</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse"
-                                data-bs-target="#multi-two1" aria-expanded="false" aria-controls="multi-two1">
-                                Centre1
-                            </a>
-                            <ul id="multi-two1" class="sidebar-dropdown list-unstyled collapse">
-                                <li class="sidebar-item">
-                                    <a href="{% url 'analyseCentre1' %}" class="sidebar-link">Analyse</a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a href="{% url 'TransfertRecuC1' %}" class="sidebar-link">Transfert Reçu</a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a href="{% url 'venteC1' %}" class="sidebar-link">Vente</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse"
-                                data-bs-target="#multi-two2" aria-expanded="false" aria-controls="multi-two2">
-                                Centre2
-                            </a>
-                            <ul id="multi-two2" class="sidebar-dropdown list-unstyled collapse">
-                                <li class="sidebar-item">
-                                    <a href="{% url 'analyseCentre2' %}" class="sidebar-link">Analyse</a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a href="{% url 'TransfertRecuC2' %}" class="sidebar-link">Transfert Reçu</a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a href="{% url 'venteC2' %}" class="sidebar-link">Vente</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse"
-                                data-bs-target="#multi-two3" aria-expanded="false" aria-controls="multi-two3">
-                                Centre3
-                            </a>
-                            <ul id="multi-two3" class="sidebar-dropdown list-unstyled collapse">
-                                <li class="sidebar-item">
-                                    <a href="{% url 'analyseCentre3' %}" class="sidebar-link">Analyse</a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a href="{% url 'TransfertRecuC3' %}" class="sidebar-link">Transfert Reçu</a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a href="{% url 'venteC3' %}" class="sidebar-link">Vente</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li class="sidebar-item">
-                    <a href="{% url 'Transfert' %}" class="sidebar-link">
-                        <i class="lni lni-grow"></i>
-                        <span>Transferts</span>
-                    </a>
-                </li>
-                <!-- Ventes Section -->
-                <li class="sidebar-item">
-                    <a href="{% url 'venteI' %}" class="sidebar-link">
-                        <i class="lni lni-grow"></i>
-                        <span>Ventes</span>
-                    </a>
-                </li>
-        
-                <!-- Achats Section -->
-                <li class="sidebar-item">
-                    <a href="{% url 'achat' %}" class="sidebar-link">
-                        <i class="lni lni-grow"></i>
-                        <span>Achats</span>
-                    </a>
-                </li>
-        
-                <!-- Règlement Section -->
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                        data-bs-target="#Reglement" aria-expanded="false" aria-controls="Reglement">
-                        <i class="lni lni-write"></i>
-                        <span>Règlement</span>
-                    </a>
-                    <ul id="Reglement" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="sidebar-item">
-                            <a href="{% url 'histpymtachat' %}" class="sidebar-link">Payment Achat</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="{% url 'histpymtvente' %}" class="sidebar-link">Payement Vente</a>
-                        </li>
-                    </ul>
-                </li>
-        
-                <!-- Notifications Section -->
-                <li class="sidebar-item">
-                    <a href="{% url 'notification' %}" class="sidebar-link">
-                        <i class="lni lni-popup"></i>
-                        <span>Notifications  +{{ nb_notification }}</span>
-                    </a>
-                </li>
-        
-                <!-- Paramètres Section -->
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="lni lni-cog"></i>
-                        <span>Paramètres</span>
-                    </a>
-                </li>
-        
-                <!-- Logout Section -->
-                <li class="sidebar-item">
-                    <a href="{% url 'logout' %}" class="sidebar-link">
-                        <i class="lni lni-exit"></i>
-                        <span>Logout</span>
-                    </a>
-                </li>
-            </ul>
-            <div class="sidebar-footer">
-                <!-- Footer Content -->
-            </div>
-        </aside>
+        {% include 'includes/side-bar.html' %}
+
         <div class="main p-3">
             <div class="text-center">
                 {% if messageexp %}
-            <div class="alert alert-danger  alert-dismissible fade show" role="alert">
-        <strong>Erreur:</strong> <p style="color: red;">{{ messageexp }}</p>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-            {% endif %}
+                <div class="alert alert-danger  alert-dismissible fade show" role="alert">
+                    <strong>Erreur:</strong>
+                    <p style="color: red;">{{ messageexp }}</p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
                 <div class="container d-flex justify-content-center align-items-center vh-100">
                     <div class="card">
-                      <div class="card-body">
-                        <h2 class="card-title">Modifier {{msg}}</h2>
-                        <p style="color: red;">{{message}}</p>
-                        <form method="post" >
-                          {% csrf_token %}
-                          {{ form.as_p }}
-                          <input class="btn btn-success btn-pink" type="submit" value="Save">
-                          <button onclick="retournerPagePrecedente()" class="btn btn-success btn-pink" style="background-color: orange; border: none;" type="button">Retour</button>                     
-                        </form>
+                        <div class="card-body">
+                            <h2 class="card-title">Modifier {{msg}}</h2>
+                            <p style="color: red;">{{message}}</p>
+                            <form method="post">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                <input class="btn btn-success btn-pink" type="submit" value="Save">
+                                <button onclick="retournerPagePrecedente()" class="btn btn-success btn-pink"
+                                    style="background-color: orange; border: none;" type="button">Retour</button>
+                            </form>
                         </div>
                     </div>
-                  </div>
+                </div>
             </div>
         </div>
     </div>
@@ -445,49 +239,50 @@ a.sidebar-link:hover {
         crossorigin="anonymous"></script>
 </body>
 <script>
-    cpt=0;
+    cpt = 0;
     function retournerPagePrecedente() {
         cpt++;
-        if(cpt>1){
-        history.go(-2);}
-        else{history.back()}
+        if (cpt > 1) {
+            history.go(-2);
+        }
+        else { history.back() }
     }
 
 
 </script>
 <script>
     $(document).ready(function () {
-      // Fonction pour filtrer le tableau lorsqu'une recherche est effectuée
-      $("#formId1").on("input", function () {
-        var recherche = $(this).val().toLowerCase();
-        $("tbody tr").filter(function () {
-          $(this).toggle($(this).text().toLowerCase().indexOf(recherche) > -1);
+        // Fonction pour filtrer le tableau lorsqu'une recherche est effectuée
+        $("#formId1").on("input", function () {
+            var recherche = $(this).val().toLowerCase();
+            $("tbody tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(recherche) > -1);
+            });
         });
-      });
     });
-  </script>
+</script>
 <script>
-     const hamBurger = document.querySelector(".toggle-btn");
-
-hamBurger.addEventListener("click", function () {
-  document.querySelector("#sidebar").classList.toggle("expand");
-});
-
-function imageCliquable() {
     const hamBurger = document.querySelector(".toggle-btn");
 
-hamBurger.addEventListener("click", function () {
-  document.querySelector("#sidebar").classList.toggle("expand");
+    hamBurger.addEventListener("click", function () {
+        document.querySelector("#sidebar").classList.toggle("expand");
+    });
 
-  var div = document.getElementById("monDiv");
+    function imageCliquable() {
+        const hamBurger = document.querySelector(".toggle-btn");
 
-        // Changer le contenu du div
-        div.innerHTML = "<button class=\"toggle-btn\" type=\"button\" ><i class=\"lni lni-grid-alt\"></i></button>";
-   
-});
+        hamBurger.addEventListener("click", function () {
+            document.querySelector("#sidebar").classList.toggle("expand");
+
+            var div = document.getElementById("monDiv");
+
+            // Changer le contenu du div
+            div.innerHTML = "<button class=\"toggle-btn\" type=\"button\" ><i class=\"lni lni-grid-alt\"></i></button>";
+
+        });
     }
 
-function changerContenu() {
+    function changerContenu() {
         // Sélectionner le div
         var div = document.getElementById("monDiv");
 
@@ -496,4 +291,5 @@ function changerContenu() {
     }
 
 </script>
+
 </html>

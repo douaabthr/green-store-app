@@ -59,7 +59,7 @@ def payerAchat(request):
 
             # Vérifier si le montant de règlement est supérieur à zéro
             if payment.montant_reglement > Decimal(0.0):
-                fournisseur.solde += payment.montant_reglement
+                fournisseur.solde -= payment.montant_reglement
                 fournisseur.save()
                 form.save()
                 return redirect('histpymtachat')
@@ -81,7 +81,7 @@ def payerVente(request):
 
             # Vérifier si le montant payé est supérieur à zéro
             if payment.montant_paye > 0:
-                client.credit += payment.montant_paye
+                client.credit -= payment.montant_paye
                 client.save()
                 form.save()
                 return redirect('histpymtvente')
@@ -126,10 +126,7 @@ def modifier_paymentht(request, payment_id):
                 fournisseur.solde -= ancien_montant_reglement
                 fournisseur.save()
 
-            # Ajouter le nouveau montant du paiement au solde du fournisseur
-                fournisseur.solde += payment.montant_reglement
-                fournisseur.save()
-
+            # Ajo
                 return redirect('histpymtachat')
             else:
                 return render(request, "modifierItem.html", {'form': form, 'messageexp': 'Le montant doit être supérieur à zéro'})
@@ -182,8 +179,7 @@ def modifier_paymentvt(request, payment_id):
                 client.save()
 
             # Ajouter le nouveau montant du paiement au solde du client
-                client.credit += payment.montant_paye
-                client.save()
+              
 
                 return redirect('histpymtvente')  # Assurez-vous que la redirection est correcte
             else:

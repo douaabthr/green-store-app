@@ -15,7 +15,7 @@ from .models import PaymentAchat
 from .models import PaymentVente
 from .models import Massrouf
 from .models import MatierePremiere
-from .models import Ingridiant,Absent
+from .models import Ingridiant,Absent,Exit_time,Command,Payed_at
 
 # Register your models here.
 admin.site.register(Produit)
@@ -33,5 +33,10 @@ admin.site.register(PaymentVente)
 admin.site.register(Massrouf)
 admin.site.register(Ingridiant)
 admin.site.register(Absent)
+admin.site.register(Command)
+admin.site.register(Payed_at)
+admin.site.register(Exit_time)
+
+
 
 

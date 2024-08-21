@@ -91,9 +91,11 @@ from django.shortcuts import render
 
 def fiche_jornal_fournisseurs(request):
     produits = Fournisseur.objects.all()
+    solde_total = sum(produit.solde for produit in produits if produit.active)
 
     context = {
-        'fournisseurs': produits
+        'fournisseurs': produits,
+        'solde_total':solde_total
     }
 
     return render(request, 'Fournisseur.html', context)

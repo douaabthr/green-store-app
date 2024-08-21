@@ -11,6 +11,8 @@ from .models import Produit
 from .models import Centre
 from .models import MatierePremiere
 from .models import Transfert
+from .models import Employe,Command
+
 
 class PaymentAchatForm(forms.ModelForm): 
     class Meta:
@@ -34,7 +36,6 @@ class PaymentAchatForm(forms.ModelForm):
         self.fields['pay_at'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
         self.fields['pay_at'].disabled = True
 
-
 class PaymentVenteForm(forms.ModelForm): 
     class Meta:
         model = PaymentVente
@@ -57,7 +58,6 @@ class PaymentVenteForm(forms.ModelForm):
         self.fields['pay_at'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
         self.fields['pay_at'].disabled = True
 
-
 class PaymentAchatFormForAjout(forms.ModelForm): 
     pay_at=forms.DateField(label='Date de payement', widget=forms.DateInput(attrs={'type': 'date'}))
     class Meta:
@@ -68,10 +68,7 @@ class PaymentAchatFormForAjout(forms.ModelForm):
             'pay_at': 'Date de payement',
             'montant_reglement': 'Montant  reglement',
           }
-        
-
-
-
+    
 class PaymentVenteFormForAjout(forms.ModelForm): 
     pay_at=forms.DateField(label='Date de payement', widget=forms.DateInput(attrs={'type': 'date'}))
     class Meta:
@@ -83,15 +80,6 @@ class PaymentVenteFormForAjout(forms.ModelForm):
             'montant_reglement': 'Montant  reglement',
           }
         
-
-
-
-from django import forms
-from .models import Fournisseur  # Assurez-vous d'importer votre modèle Fournisseur
-
-from django import forms
-from .models import Fournisseur
-
 class FiltreAchatForm(forms.Form):
     fournisseur =forms.ModelChoiceField(queryset=Fournisseur.objects.all(), required=False,label=
     "Fournisseur"
@@ -108,7 +96,6 @@ class FiltreAchatForm(forms.Form):
         required=False,
         label='Date de fin',
     )
-
 
 class AchatForm(forms.ModelForm):
     class Meta:
@@ -135,7 +122,6 @@ class AchatForm(forms.ModelForm):
 
         self.fields['buyed_at'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
         self.fields['buyed_at'].disabled = True
-
 
 class FiltreVenteForm(forms.Form):
     client = forms.ModelChoiceField(queryset=Client.objects.all(), required=False,label="Client")
@@ -165,8 +151,6 @@ class FiltreVentePForm(forms.Form):
         label='Date de fin',
     )
 
-from django import forms
-from .models import VenteP
 
 class VentePForm(forms.ModelForm):
     class Meta:
@@ -230,8 +214,6 @@ class VenteMForm(forms.ModelForm):
         self.fields['prix_unitaire_Ven'].widget = forms.TextInput(attrs={'readonly': 'readonly'})
         self.fields['prix_unitaire_Ven'].disabled = True
 
-
-
 class TransfertForm(forms.ModelForm):
     class Meta:
         model = Transfert
@@ -285,9 +267,7 @@ class FournisseurForm(forms.ModelForm):
         labels = {
             'codeF': 'Code du fournisseur',
             'nomF': 'Nom du fournisseur',
-            'prenomF': 'Prénom du fournisseur',
-            'adresseF': 'Adresse du fournisseur',
-            'telephoneF': 'Téléphone du fournisseur',
+       
             'solde': 'Solde du fournisseur',
         }
 
@@ -337,7 +317,6 @@ class CentreForm(forms.ModelForm):
         # Désactiver les champs côté serveur (backend)
         self.fields['codeC'].disabled = True
 
-from .models import Employe, MatierePremiere
 
 class EmployeForm(forms.ModelForm):
     class Meta:
@@ -478,14 +457,29 @@ class EmployeForm1(forms.ModelForm):
         model = Employe
         exclude=['active']
         labels = {
+            'codeEmp': 'Code de l\'employé',
             'nomEmp': 'Nom de l\'Employé',
             'prenomEmp': 'Prénom de l\'Employé',
             'adresseEmp': 'Adresse de l\'Employé',
             'telephoneEmp': 'Téléphone de l\'Employé',
-            'salaire_jour': 'Salaire par Jour de l\'Employé',
+            'salaire_base': 'Salaire de base de l\'Employé',
             'EmployeCentre': 'Centre de l\'Employé',
         }
+class CommandForm(forms.ModelForm):
+    date_achat = forms.DateField( widget=forms.DateInput(attrs={'type': 'date'}))
+    command_at = forms.DateField( widget=forms.DateInput(attrs={'type': 'date'}))
 
+    class Meta:
+        model = Command
+        exclude = ['active']
+        labels = {
+            'client': 'Client',
+            'produit_commande': 'Produit Commandé',
+            'command_at': 'Date de Commande',
+            'quantitCom': 'Quantité Commandée',
+            'date_achat': 'Date d\'Achat',
+            'prix_achat': 'Prix d\'Achat',
+        }
 class AchatForm1(forms.ModelForm):
     buyed_at = forms.DateField(label='Date d\'achat', widget=forms.DateInput(attrs={'type': 'date'}))
     class Meta:
@@ -502,11 +496,12 @@ class tranForm(forms.ModelForm):
     transfer_at = forms.DateField(label='Date d\'achat', widget=forms.DateInput(attrs={'type': 'date'}))
     class Meta:
         model = Transfert
-        exclude = ['cout_transfere']
+        exclude = ['active']  # Spécifiez ici les champs que vous voulez exclure
         labels = {
             'centre': 'Centre de Destination',
             'produit_transfere': 'Produit à Transférer',
             'quantitTran': 'Quantité à Transférer',
+            'cout_transfere': 'Cout de Transférer',
         }
 
 from .models import Massrouf
@@ -535,10 +530,11 @@ class VendreMatiereForm(forms.ModelForm):
     salled_at = forms.DateField(label='Date d\'achat', widget=forms.DateInput(attrs={'type': 'date'}))
     class Meta:
         model = VenteM
-        exclude = ['montantTotalVen','matiere_vendus','prix_unitaire_Ven']
+        exclude = ['montantTotalVen','matiere_vendus']
         labels = {
             'client': 'Client',
             'salled_at': 'Date de la Vente',
+            'prix_untaire_Ven':' prix unitaire de vente',
         }
 class FiltreTransfereForm(forms.ModelForm):
     date_debut = forms.DateField(label='Date de début', widget=forms.TextInput(attrs={'type': 'date'}), required=False)

@@ -240,14 +240,14 @@ def supprimer_vente_mat(request, vente_id):
 
     return render(request, 'supprimerItem.html', {'vente': vente,'msg':'Vente'})
 
-def fiche_journal_ventes_centre1(request):
-    ventes = VenteP.objects.filter(lieu_ventes__codeC='c1')
+def fiche_journal_ventes_centre1(request,center_id):
+    ventes = VenteP.objects.filter(lieu_ventes__codeC=center_id)
     if ventes:
         total_ventes = ventes.aggregate(total=Sum('montantTotalVen'))['total'] 
     else:
         total_ventes =Decimal(0.0)
 
-    transferts = Transfert.objects.filter(centre__codeC='c1')
+    transferts = Transfert.objects.filter(centre__codeC=center_id)
     if transferts:
         total_transferts = transferts.aggregate(total=Sum('cout_transfere'))['total']
     else:
@@ -520,6 +520,9 @@ def sava_ventes(request):
                 prix_unitaire_Ven = produit_vendus.prix_unitaire_Ven
                 quantitVen = form.cleaned_data['quantitVen']
                 lieu_ventes = form.cleaned_data['lieu_ventes']
+                mosa3ada = form.cleaned_data['mosa3ada']
+                khesara = form.cleaned_data['khesara']
+
                 if prix_unitaire_Ven<=0 or quantitVen <=0 :
                     message1="Quantite doit eter sup a 0  "
                     produits=Produit.objects.all()
@@ -531,7 +534,6 @@ def sava_ventes(request):
                     produits=Produit.objects.all()
                     form = VendreProduitForm()
                     return render(request,"add_vents.html",{"form":form,"produits":produits,"message":message})
-                montantTotalVen = prix_unitaire_Ven * quantitVen
                 produit_vendus.quantiteStockPod=produit_vendus.quantiteStockPod-quantitVen
                 produit_vendus.save()
                 VenteP.objects.create(
@@ -541,7 +543,8 @@ def sava_ventes(request):
                     prix_unitaire_Ven=prix_unitaire_Ven,
                     quantitVen=quantitVen,
                     lieu_ventes=lieu_ventes,
-                    montantTotalVen=montantTotalVen,
+                    mosa3ada=mosa3ada,
+                    khesara=khesara,
                 )
                 produits=Produit.objects.all()
                 form = VendreProduitForm()
@@ -563,8 +566,7 @@ def sava_ventes_matiere(request):
                 produit_vendus_id = request.POST.get('prd')
                 produit_vendus_id=int(produit_vendus_id)
                 salled_at = form.cleaned_data['salled_at']
-                produit_vendus = MatierePremiere.objects.get(id=produit_vendus_id)
-                prix_unitaire_Ven = produit_vendus.prix_unitaire_Ven
+                prix_unitaire_Ven = form.cleaned_data['prix_unitaire_Ven']
                 quantitVen = form.cleaned_data['quantitVen']
                 if quantitVen<=0 :
                     message1="Quantite doit eter sup a 0  "

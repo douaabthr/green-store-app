@@ -167,14 +167,14 @@ from ..forms import FiltreTransfertRecuForm
 from ..models import Ingridiant
 from decimal import Decimal
 
-def fiche_journal_transferts_recu_centre1(request):
-    transferts = Transfert.objects.filter(centre__codeC='c1')
+def fiche_journal_transferts_recu_centre1(request,center_id):
+    transferts = Transfert.objects.filter(centre__codeC=center_id)
     if transferts:
         total_transferts = transferts.aggregate(total=Sum('cout_transfere'))['total'] or 0
     else:
         total_transferts=Decimal(0.0)
 
-    ventes = VenteP.objects.filter(lieu_ventes__codeC='c1')
+    ventes = VenteP.objects.filter(lieu_ventes__codeC=center_id)
     if ventes:
         total_ventes = ventes.aggregate(total=Sum('montantTotalVen'))['total'] or 0
     else:
@@ -392,6 +392,8 @@ def save_transfer(request):
                 p=MatierePremiere.objects.get(id=Q.id)
                 QT=form.cleaned_data['quantitTran']
                 transfer_at = form.cleaned_data['transfer_at']
+                cout = form.cleaned_data['cout_transfere']
+
                 if QT <=0:
                     message1="Quantite transfere non valide "
                     form = tranForm()
@@ -404,17 +406,16 @@ def save_transfer(request):
                     p.quantiteStockMat=p.quantiteStockMat-QT
                     p_quntiteTRan=QT
                     p.save()
-                    cout_tan = 0
                     produits_from_achat=Achat.objects.filter(matiere_achete=Q.id)
                     for pa in produits_from_achat:
                         if QT !=0:
                             if  pa.quantitDispo !=0 and pa.quantitDispo <QT:
-                              cout_tan=cout_tan+pa.quantitDispo*pa.prix_unitaire_HT
+                              cout_tan = pa.quantitDispo*(pa.prix_unitaire_HT + cout)
                               QT=QT-pa.quantitDispo
                               pa.quantitDispo=0
                             else :
                               if pa.quantitDispo >=QT:
-                                   cout_tan=cout_tan+pa.prix_unitaire_HT*QT
+                                   cout_tan=(pa.prix_unitaire_HT + cout )*QT
                                    pa.quantitDispo=pa.quantitDispo-QT
                                    QT=0
                         pa.save()

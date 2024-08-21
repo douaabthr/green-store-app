@@ -1,238 +1,287 @@
 from django.db.models import Sum
-from django.shortcuts import get_object_or_404, render, redirect
-from ..models import Achat
-from ..forms import PaymentAchatForm
-from ..models import PaymentAchat
-from ..forms import FiltreAchatForm
-from ..forms import FiltreVenteForm
-from ..forms import AchatForm
-from ..forms import PaymentVenteForm
-from ..forms import PaymentVenteFormForAjout
-from ..forms import PaymentAchatFormForAjout
-from ..models import PaymentVente
-from ..models import Produit
-from ..forms import FiltreStockForm
-from ..forms import FiltreTransfertForm
+from django.shortcuts import  render
 from django.db.models import Q
 from datetime import datetime
-from django.shortcuts import render,redirect
-from django.db.models import Sum,Q
+from ..models import Centre,Employe,Absent,Massrouf,Exit_time,Payed_at,Command
+from datetime import datetime, timezone
+import json
+from django.shortcuts import render, redirect, get_object_or_404
+from ..forms import CommandForm
+from django.shortcuts import render, get_object_or_404
+from datetime import datetime, timezone
+import json
 from datetime import datetime
-from ..forms import ProduitForm1,MatiereForm1,ClientForm1,FournisseurForm1,EmployeForm1,CentreForm1,AchatForm1,tranForm,VendreProduitForm,FiltreTransfereForm,FiltreAchatForm,MonFormulaire,MonFormulaire_centre1,VendreMatiereForm
-from ..models import Produit,Client,Fournisseur,Centre,Employe,Achat,Transfert,VenteP,Absent,Massrouf,MatierePremiere,VenteM
 from decimal import Decimal
-from django.http import HttpResponse
+from django.db.models import Sum, F, ExpressionWrapper, DurationField, Case, When, DateTimeField, Value, Func
+from django.db.models.functions import ExtractHour, ExtractMinute
+from django.utils import timezone
+from datetime import datetime, time
+from datetime import datetime, time
+from django.db.models import Q, Sum
+from django.utils.timezone import make_aware, get_current_timezone
 from decimal import Decimal
-from django.shortcuts import render, redirect
-from ..forms import PaymentAchatFormForAjout
-from django.shortcuts import render, redirect
-from ..forms import PaymentVenteFormForAjout 
-from itertools import chain
 from django.shortcuts import render
-from django.db.models import Q
-from ..models import Produit, Achat
-from ..forms import FiltreStockForm
-from ..models import VenteP
-from ..models import VenteM
-from ..forms import VentePForm
-from ..forms import VenteMForm
-from django.shortcuts import render
-from django.db.models import Q
-from ..models import Produit, Achat
-from ..forms import FiltreStockForm
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from ..models import Produit, Achat
-from ..forms import FiltreStockForm
-from django.db.models import Q
-from io import BytesIO
-from reportlab.pdfgen import canvas
-from ..forms import FiltreVentePForm
-from ..models import MatierePremiere
-from ..models import Fournisseur
-from ..forms import FournisseurForm
-from ..models import Centre
-from ..forms import CentreForm 
-from django.shortcuts import render, redirect
-from ..models import Employe
-from ..forms import EmployeForm
-from ..models import Transfert
-from ..forms import MatiereForm
-from ..models import Transfert
-from ..forms import FiltreTransfertRecuForm 
-from ..models import Ingridiant
-from decimal import Decimal
-from ..forms import TransfertForm
-from django.contrib.auth.forms import UserCreationForm
-from ..forms import UserCreationForm
-from ..forms import CreateUserForm
-from django.contrib import messages
-from django.contrib.auth import authenticate,login,logout 
-from django.template.loader import render_to_string
-from django.contrib.sites.shortcuts import get_current_site
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes, force_str
-from django.core.mail import EmailMessage
-from ..tokens import account_activation_token
-from django.shortcuts import render, get_object_or_404, redirect
-from django.utils.encoding import force_str
-from django.utils.http import urlsafe_base64_decode
-from django.contrib import messages
-from django.contrib.auth import login
-from ..tokens import account_activation_token
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from ..forms import ProduitForm1,MatiereForm1,ClientForm1,FournisseurForm1,EmployeForm1,CentreForm1,AchatForm1,tranForm,VendreProduitForm,FiltreTransfereForm,FiltreAchatForm,MonFormulaire,MonFormulaire_centre1,VendreMatiereForm
-from ..models import Produit,Client,Fournisseur,Centre,Employe,Achat,Transfert,VenteP,Absent,Massrouf,MatierePremiere,VenteM
-from django.core.mail import send_mail
-from django.shortcuts import render
+from django.utils.timezone import make_aware, get_current_timezone
 
-def systemePointage(request):
-    if request.method=='POST':
-        code_emp = request.POST.get('code_emp')
-        date_emp = request.POST.get('date')
-        browser_choice = request.POST.get('browser')
-        massrof = request.POST.get('massrof')
-        codes_employes = request.POST.get('codes_employes')
-        # Maintenant, codes_employes contient la liste des codes d'employés envoyés depuis le formulaire
-        employe=Employe.objects.get(codeEmp=code_emp)
-        if browser_choice=="absent":
-            if date_emp =="" :
-                employes_data=[]
-                c=""
-                for emp in codes_employes :
-                    if emp !="," :
-                        c=c+emp
-                    else:
-                        emp=Employe.objects.get(codeEmp=c)
-                        e = {
-                        'codeEmp': emp.codeEmp,
-                        'nomEmp': emp.nomEmp,
-                        'prenomEmp': emp.prenomEmp,
-                        'EmployeCentre': emp.EmployeCentre,
-                        }
-                        employes_data.append(e)
-                        c=""
-                message = "Veuillez entrer la date d'absence"
-                return render(request,"systemePointage.html", {"message":message,'employes': employes_data})
+def systemePointage(request, employe_id):
+    E = Employe.objects.get(pk=employe_id)
+    print("1",E)
+    absents = Absent.objects.filter(employe=employe_id)
+    messrofs = Massrouf.objects.filter(employe=employe_id)
+    exit_times = Exit_time.objects.filter(employe=employe_id)
 
-            else :
-                Absent.objects.create(
-                employe=employe,
-                date_abcence=date_emp,
-                )
-        if massrof :
-            massrof=int(massrof)   
-        if  massrof and massrof !=0:
+    absents_data = []
+    for absent in absents:
+        date_abcence = absent.date_abcence
+        if isinstance(date_abcence, datetime):
+            if date_abcence.tzinfo is None:
+                date_abcence = date_abcence.replace(tzinfo=timezone.utc)
+            date_abcence = date_abcence.isoformat()
+        absents_data.append({
+            'id': absent.id,
+            'employe': absent.employe_id,
+            'date_abcence': date_abcence,
+        })
+
+    messrofs_data = []
+    for messrof in messrofs:
+        demende_at = messrof.demende_at.isoformat()
+        messrofs_data.append({
+            'id': messrof.id,
+            'employe': messrof.employe_id,
+            'demende_at': demende_at,
+            'montant_dem': str(messrof.montant_dem),
+        })
+
+    exit_times_data = []
+    for exit_time in exit_times:
+        date_sortie = exit_time.date_sortie
+        if isinstance(date_sortie, datetime):
+            if date_sortie.tzinfo is None:
+                date_sortie = date_sortie.replace(tzinfo=timezone.utc)
+            date_sortie = date_sortie.isoformat()
+        exit_times_data.append({
+            'id': exit_time.id,
+            'employe': exit_time.employe_id,
+            'date_sortie': date_sortie,
+        })
+
+    if request.method == 'POST':
+        integer_input = request.POST.get('integerInput')
+        time_input = request.POST.get('timeInput')
+        presence_input = request.POST.get('presenceInput')
+        selectedDate = request.POST.get('selectedDate')
+        deleteExitTime = request.POST.get('deleteExitTime')
+        deleteMasrof = request.POST.get('deleteMasrof')
+        E = Employe.objects.get(pk=employe_id)
+
+        print("hiiiiiiiiiiiiiii",E )
+
+        selectedDate = datetime.strptime(selectedDate, '%d %B %Y').date() if selectedDate else None
+
+
+        if deleteExitTime == 'true' : 
+            Exit_time.objects.filter(employe=E, date_sortie__date=selectedDate).delete()
             
-            if date_emp =="" :
-                employes_data=[]
-                c=""
-                for emp in codes_employes :
-                    if emp !="," :
-                        c=c+emp
-                    else:
-                        emp=Employe.objects.get(codeEmp=c)
-                        e = {
-                        'codeEmp': emp.codeEmp,
-                        'nomEmp': emp.nomEmp,
-                        'prenomEmp': emp.prenomEmp,
-                        'EmployeCentre': emp.EmployeCentre,
-                        }
-                        employes_data.append(e)
-                        c=""
-                message = "Veuillez entrer la date demande de massrofe"
-                return render(request,"systemePointage.html", {"message":message,'employes': employes_data})
+        if deleteMasrof == 'true' : 
+            Massrouf.objects.filter(employe=E, demende_at=selectedDate).delete()
 
-            else :
-                Massrouf.objects.create(
-                employe=employe,
-                demende_at=date_emp,
-                montant_dem=massrof,
+
+        integer_input = int(integer_input) if integer_input else None
+        time_input = datetime.strptime(time_input, '%H:%M').time() if time_input else None
+        presence_input = presence_input.lower() == 'true' if presence_input else None
+        date = datetime.combine(selectedDate, time_input) if selectedDate and time_input else None
+
+        if integer_input is not None and selectedDate:
+            Massrouf.objects.update_or_create(
+                employe=E,
+                demende_at=selectedDate,
+                defaults={'montant_dem': integer_input},
             )
-        c="" # cette prtie pou retorner les employes rester sans pointage
-        employes_data=[]
-        for emp in codes_employes :
-            if emp !="," :
-                c=c+emp
+
+        if presence_input==True  :
+            Absent.objects.update_or_create(
+                employe=E,
+                date_abcence=selectedDate,
+            )
+        else:
+            if deleteMasrof != 'true' and  deleteExitTime != 'true' :
+                print(presence_input)
+                Absent.objects.filter(employe=E, date_abcence=selectedDate).delete()
+        
+
+        if date :
+            
+            ET, created = Exit_time.objects.update_or_create(
+            employe=E,
+            date_sortie__date=selectedDate,
+            defaults={'date_sortie': date}
+          )
+
+            if created:
+                print("A new record was created.")
             else:
-                emp=Employe.objects.get(codeEmp=c)
-                if c!=code_emp :
-                    e = {
-                    'codeEmp': emp.codeEmp,
-                    'nomEmp': emp.nomEmp,
-                    'prenomEmp': emp.prenomEmp,
-                    'EmployeCentre': emp.EmployeCentre,
-                    }
-                    employes_data.append(e)
-                c=""
+                print("An existing record was updated.")   
 
-        return render(request,"systemePointage.html", {'employes': employes_data})
+
+        context = {
+            'E':E,
+            'absents': json.dumps(absents_data),
+            'messrofs': json.dumps(messrofs_data),
+            'exit_times': json.dumps(exit_times_data)
+        }
+
+        return render(request, "systemePointage.html", context)
+
     else:
-        employes=Employe.objects.all()
-        employes_data=[]
-        for emp in employes :
-            e = {
-            'codeEmp': emp.codeEmp,
-            'nomEmp': emp.nomEmp,
-            'prenomEmp': emp.prenomEmp,
-            'EmployeCentre': emp.EmployeCentre,
-            }
-            employes_data.append(e)
 
-        return render(request,"systemePointage.html",{"employes":employes_data})
+        context = {
+            'E': E,
+            'absents': json.dumps(absents_data),
+            'messrofs': json.dumps(messrofs_data),
+            'exit_times': json.dumps(exit_times_data)
+        }
+
+        return render(request, "systemePointage.html", context)
 
 
-def CalculerSalaire (request):
-    if request.method == 'POST' :
+def CalculerSalaire(request):
+    if request.method == 'POST':
+        # Récupération des données du formulaire
         filtre_centre = request.POST.get('browser')
-        date_debut_de_mois=request.POST.get('date_debut')
-        date_fin_de_mois=request.POST.get('date_fin')
-        date_fin_de_mois = datetime.strptime(date_fin_de_mois, '%Y-%m-%d').date()
+        date_debut_de_mois = request.POST.get('date_debut')
+        date_fin_de_mois = request.POST.get('date_fin')
+        
+        # Conversion des dates en objets datetime.date
         date_debut_de_mois = datetime.strptime(date_debut_de_mois, '%Y-%m-%d').date()
-        if filtre_centre :
-            employes_centres=Employe.objects.filter(EmployeCentre=filtre_centre)
-        else :
-            employes_centres=Employe.objects.all()
+        date_fin_de_mois = datetime.strptime(date_fin_de_mois, '%Y-%m-%d').date()
+        
+        # Filtrage des employés selon le centre, si spécifié
+        if filtre_centre:
+            employes_centres = Employe.objects.filter(EmployeCentre=filtre_centre)
+        else:
+            employes_centres = Employe.objects.all()
+        
+        resultat_employes = []
+        nb_jour = (date_fin_de_mois - date_debut_de_mois).days
+        tz = get_current_timezone()
 
-        resultat_employes=[]
-        nb_jour=(date_fin_de_mois-date_debut_de_mois).days
-        for emp in  employes_centres :
-            total_masrouf=0
-            nb_absent=0
-            nb_absent=Absent.objects.filter(Q(employe=emp) & (Q(date_abcence__lte=date_fin_de_mois) |
-                                                               Q(date_abcence__gte=date_debut_de_mois))).count()
-            total_masrouf = Massrouf.objects.filter(Q(employe=emp) & (Q(demende_at__lte=date_fin_de_mois) |
-                                                                       Q(demende_at__gte=date_debut_de_mois))).values('montant_dem').aggregate(Sum('montant_dem'))['montant_dem__sum']
-            total_masrouf = total_masrouf if total_masrouf is not None else Decimal('0.0')
-            nb_absent = nb_absent if nb_absent is not None else 0
-            salaire=(nb_jour-nb_absent)*emp.salaire_jour-total_masrouf
+        for emp in employes_centres:
+            # Initialisation des variables pour chaque employé
+            total_masrouf = Decimal('0.0')
+            nb_absent = 0
+            heures_travaillees_totales = Decimal('0.0')
+            heure_debut_journee = time(8, 0)
+            
+            # Calcul des heures travaillées pour l'employé dans la période donnée
+            exit_times = Exit_time.objects.filter(
+                Q(employe=emp) & 
+                Q(date_sortie__gte=date_debut_de_mois) & 
+                Q(date_sortie__lte=date_fin_de_mois)
+            )
+
+            for exit_time in exit_times:
+                date_sortie = make_aware(exit_time.date_sortie, timezone=tz) if exit_time.date_sortie.tzinfo is None else exit_time.date_sortie
+                heure_debut = make_aware(datetime.combine(date_sortie.date(), heure_debut_journee), timezone=tz)
+                difference = date_sortie - heure_debut
+                heures_travaillees = Decimal(difference.total_seconds()) / Decimal(3600)  # Convertir les secondes en heures
+                heures_travaillees_totales += heures_travaillees
+            print(heures_travaillees_totales)
+
+            # Calcul du nombre de jours d'absence
+            nb_absent = Absent.objects.filter(
+                Q(employe=emp) &
+                Q(date_abcence__gte=date_debut_de_mois) & 
+                Q(date_abcence__lte=date_fin_de_mois)
+            ).count()
+
+            # Ajustement du nombre de jours de travail avec les jours d'absence
+            nb_avec_exit_time = exit_times.count()
+            if nb_avec_exit_time != 0:
+                nb_jour = nb_jour-nb_absent
+                print(nb_jour)
+            
+            # Calcul du montant total des masroufs
+            total_masrouf = Massrouf.objects.filter(
+                Q(employe=emp) & 
+                Q(demende_at__gte=date_debut_de_mois) & 
+                Q(demende_at__lte=date_fin_de_mois)
+            ).aggregate(total=Sum('montant_dem'))['total'] or Decimal('0.0')
+
+            # Calcul du salaire
+            salaire = (nb_jour - nb_absent) * emp.salaire_base - total_masrouf + (heures_travaillees_totales * (emp.salaire_base / Decimal(8)))
+
+            # Création du dictionnaire de résultat pour chaque employé
             resultat_employe = {
-            'codeEmp': emp.codeEmp,
-            'nomEmp': emp.nomEmp,
-            'prenomEmp': emp.prenomEmp,
-            'nb_absent': nb_absent,
-            'total_masrouf': total_masrouf,
-            'salaire': salaire,
-                }
+                'codeEmp': emp.codeEmp,
+                'nomEmp': emp.nomEmp,
+                'prenomEmp': emp.prenomEmp,
+                'nb_absent': nb_absent,
+                'total_masrouf': total_masrouf,
+                'salaire': salaire,
+            }
             resultat_employes.append(resultat_employe)
-        centre=Centre.objects.all()
-        return render(request,"Salaire.html",{"resultat_employes":resultat_employes,"centre":centre})
-    else :
-        resultat_employes=[]
-        employes_centres=Employe.objects.all()
-        for emp in  employes_centres :
-            total_masrouf=0
-            nb_absent=0
-            salaire=0
+
+        # Récupération des centres pour l'affichage
+        centre = Centre.objects.all()
+        return render(request, "Salaire.html", {"resultat_employes": resultat_employes, "centre": centre})
+
+    else:
+        # Si ce n'est pas une requête POST, afficher une page vide avec les centres disponibles
+        resultat_employes = []
+        employes_centres = Employe.objects.all()
+        for emp in employes_centres:
             resultat_employe = {
-            'codeEmp': emp.codeEmp,
-            'nomEmp': emp.nomEmp,
-            'prenomEmp': emp.prenomEmp,
-            'nb_absent': nb_absent,
-            'total_masrouf': total_masrouf,
-            'salaire': salaire,
-                }
+                'codeEmp': emp.codeEmp,
+                'nomEmp': emp.nomEmp,
+                'prenomEmp': emp.prenomEmp,
+                'nb_absent': 0,
+                'total_masrouf': Decimal('0.0'),
+                'salaire': Decimal('0.0'),
+            }
             resultat_employes.append(resultat_employe)
-        centre=Centre.objects.all()
-        return render(request,"Salaire.html",{"resultat_employes":resultat_employes,"centre":centre})
+
+        centre = Centre.objects.all()
+        return render(request, "Salaire.html", {"resultat_employes": resultat_employes, "centre": centre})
+
+def fiche_jornal_command(request):
+    commandes = Command.objects.all()
+
+    context = {
+        'commandes': commandes,
+    }
+
+    return render(request, 'Commande.html', context)
+
+def inserer_commande(request):
+    if request.method == 'POST':
+        form = CommandForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('listCommand')  # Redirige vers la liste des commandes
+    else:
+        form = CommandForm()
+
+    return render(request, 'ajouter_command.html', {'form': form, 'msg': 'Ajouter une Commande'})
+
+def modifier_command(request, commande_id):
+    commande = get_object_or_404(Command, pk=commande_id)  # Utilise get_object_or_404 pour une meilleure gestion des erreurs
+
+    if request.method == 'POST':
+        form = CommandForm(request.POST, instance=commande)
+        if form.is_valid():
+            form.save()
+            return redirect('listCommand')  # Redirige vers la liste des commandes
+    else:
+        form = CommandForm(instance=commande)
+
+    return render(request, 'modifier_command.html', {'form': form, 'commande': commande, 'msg': 'Modifier une Commande'})
+
+def supprimer_command(request, commande_id):
+    commande = get_object_or_404(Command, pk=commande_id)  # Utilise get_object_or_404
+
+    if request.method == 'POST':
+        commande.delete()  # Supprime la commande
+        return redirect('listCommand')  # Redirige vers la liste des commandes
+
+    return render(request, 'supprimer_command.html', {'commande': commande, 'msg':commande})

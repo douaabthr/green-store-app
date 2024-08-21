@@ -3014,6 +3014,8 @@ def save_transfer(request):
                 p=MatierePremiere.objects.get(id=Q.id)
                 QT=form.cleaned_data['quantitTran']
                 transfer_at = form.cleaned_data['transfer_at']
+                cout = form.cleaned_data['transfer_at']
+
                 if QT <=0:
                     message1="Quantite transfere non valide "
                     form = tranForm()
@@ -3031,12 +3033,12 @@ def save_transfer(request):
                     for pa in produits_from_achat:
                         if QT !=0:
                             if  pa.quantitDispo !=0 and pa.quantitDispo <QT:
-                              cout_tan=cout_tan+pa.quantitDispo*pa.prix_unitaire_HT
+                              cout_tan=pa.quantitDispo*(pa.prix_unitaire_HT+cout)
                               QT=QT-pa.quantitDispo
                               pa.quantitDispo=0
                             else :
                               if pa.quantitDispo >=QT:
-                                   cout_tan=cout_tan+pa.prix_unitaire_HT*QT
+                                   cout_tan=(pa.prix_unitaire_HT +cout )*QT
                                    pa.quantitDispo=pa.quantitDispo-QT
                                    QT=0
                         pa.save()

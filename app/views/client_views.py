@@ -92,9 +92,11 @@ from django.shortcuts import render
 
 def fiche_jornal_clients(request):
     clients = Client.objects.all()
+    solde_total = sum(client.credit for client in clients if client.active)
 
     context = {
         'clients': clients,
+        'solde_total':solde_total,
     }
 
     return render(request, 'Client.html', context)

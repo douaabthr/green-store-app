@@ -1,11 +1,9 @@
 from django.db import models
 from datetime import datetime
 from django.db.models.signals import post_save
-from django.dispatch import receiver
-from django.db.models import Sum, F
+from datetime import datetime, time
 
 
-# Create your models here.
 
 class Produit(models.Model):
     codeP = models.CharField(max_length=10,unique=True)
@@ -20,7 +18,6 @@ class MatierePremiere(models.Model):
     codeM = models.CharField(max_length=10,unique=True)
     designation_matiere = models.CharField(max_length=50)
     quantiteStockMat=models.IntegerField()
-    prix_unitaire_Ven=models.DecimalField(max_digits=15, decimal_places=2,default='0.0')
     active=models.BooleanField(default=True)
     def __str__(self):
         return self.codeM  
@@ -28,27 +25,16 @@ class MatierePremiere(models.Model):
 class Fournisseur(models.Model):
     codeF= models.CharField(max_length=10,unique=True)
     nomF= models.CharField(max_length=50)
-    prenomF= models.CharField(max_length=50)
-    adresseF=models.CharField(max_length=100)
-    telephoneF=models.CharField(max_length=20)
+    
     solde=models.DecimalField(max_digits=10, decimal_places=2)
     active=models.BooleanField(default=True)
     def __str__(self):
-        return self.codeF
+        return self.nomF
     
 class Centre(models.Model):
-    NOM_CHOICES = [
-        ('Centre1', 'centre1'),
-        ('Centre2', 'centre2'),
-        ('Centre3', 'centre3'),
-    ]
-    CODE_CHOICES = [
-        ('c1', 'c1'),
-        ('c2', 'c2'),
-        ('c3', 'c3'),
-    ]
-    codeC=models.CharField(max_length=10,unique=True,choices=CODE_CHOICES)
-    designation_centre=models.CharField(max_length=50,choices=NOM_CHOICES)
+
+    codeC=models.CharField(max_length=10,unique=True)
+    designation_centre=models.CharField(max_length=50)
     active=models.BooleanField(default=True)
     def __str__(self):
         return self.codeC  
@@ -59,7 +45,7 @@ class Employe(models.Model):
     prenomEmp=models.CharField(max_length=50)
     adresseEmp=models.CharField(max_length=100)
     telephoneEmp=models.CharField(max_length=20)
-    salaire_jour=models.DecimalField(max_digits=10, decimal_places=2)
+    salaire_base=models.DecimalField(max_digits=10, decimal_places=2)
     EmployeCentre = models.ForeignKey(Centre, null= True, on_delete=models.CASCADE)
     active=models.BooleanField(default=True)
     def __str__(self):
@@ -93,24 +79,24 @@ class Achat(models.Model):
         super(Achat, self).save(*args, **kwargs)
 
 class VenteP(models.Model):
-    LIEU_CHOICES = [
-        ('Centre1', 'centre1'),
-        ('Centre2', 'centre2'),
-        ('Centre3', 'centre3'),
-    ]
+
     client=models.ForeignKey(Client, on_delete=models.CASCADE)
     produit_vendus=models.ForeignKey(Produit,on_delete=models.CASCADE)
     salled_at=models.DateTimeField()
     prix_unitaire_Ven=models.DecimalField(max_digits=10, decimal_places=2)
     quantitVen=models.IntegerField()
     lieu_ventes=models.ForeignKey(Centre, on_delete=models.CASCADE)
+    montantTotalVenNeutre=models.DecimalField(max_digits=10, decimal_places=2,null=True)
     montantTotalVen=models.DecimalField(max_digits=10, decimal_places=2)
+    mosa3ada = models.IntegerField(null=True)
+    khesara = models.IntegerField(null=True)
     class Meta:
     # Définir la clé primaire sur la combinaison de client et produit
         unique_together = ['client', 'produit_vendus','salled_at','lieu_ventes']
     def save(self, *args, **kwargs):
         # Calculer le montant total
-        self.montantTotalVen = self.prix_unitaire_Ven * self.quantitVen
+        self.montantTotalVen = self.prix_unitaire_Ven * self.quantitVen -(self.mosa3ada+self.khesara)
+        self.montantTotalVenNeutre = self.prix_unitaire_Ven * self.quantitVen
         super(VenteP, self).save(*args, **kwargs)
 
 
@@ -135,6 +121,8 @@ class Transfert(models.Model):
     transfer_at=models.DateTimeField()
     quantitTran=models.IntegerField()
     cout_transfere=models.DecimalField(max_digits=10, decimal_places=2)
+    active=models.BooleanField(default=True)
+
     class Meta:
     # Définir la clé primaire sur la combinaison de client et produit
         unique_together = ['centre', 'produit_transfere','transfer_at']
@@ -176,5 +164,33 @@ class Absent(models.Model):
     class Meta:
     # Définir la clé primaire sur la combinaison de client et produit
         unique_together = ['employe', 'date_abcence']
+class Exit_time(models.Model):
+    employe = models.ForeignKey(Employe, on_delete=models.CASCADE)
+    date_sortie = models.DateTimeField()
+
+    def heures_travaillees(self):
+        heure_debut = datetime.combine(self.date_sortie.date(), time(8, 0))  # 8h00 le même jour
+        difference = self.date_sortie - heure_debut
+        heures_travaillees = difference.total_seconds() / 3600  # convertir les secondes en heures
+        return heures_travaillees
+
+    class Meta:
+        unique_together = ['employe', 'date_sortie']
+
+class Payed_at(models.Model):
+    date_payement = models.DateField(unique=True)
+
+
+class Command(models.Model):
+    client=models.ForeignKey(Client, on_delete=models.CASCADE)
+    produit_commande=models.ForeignKey(Produit,on_delete=models.CASCADE)
+    command_at=models.DateTimeField()
+    quantitCom=models.IntegerField(null= True)
+    date_achat = models.DateTimeField()
+    prix_achat = models.IntegerField(null= True)
+    class Meta:
+        unique_together = ['client', 'produit_commande','command_at']
+
+
 
 

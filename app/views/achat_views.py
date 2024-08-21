@@ -161,6 +161,11 @@ def sava_achat(request):
                 quantitDispo=quantitHT,
                 montantTotalHT=montantTotalHT
             )
+            fournisseur = get_object_or_404(Fournisseur, codeF=fournisseur.codeF)
+        
+            fournisseur.solde = fournisseur.solde + montantTotalHT
+            print()
+            fournisseur.save()
             produits = MatierePremiere.objects.all()
             form = AchatForm1()
             message_succe="Achat effecute avec succe"

@@ -13,8 +13,8 @@
         </li>
         <!-- Analyse Section -->
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                data-bs-target="#analyse" aria-expanded="false" aria-controls="analyse">
+            <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse" data-bs-target="#analyse"
+                aria-expanded="false" aria-controls="analyse">
                 <i class="lni lni-bar-chart"></i>
                 <span>Analyse</span>
             </a>
@@ -30,8 +30,8 @@
 
         <!-- Stock Section -->
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                data-bs-target="#stock" aria-expanded="false" aria-controls="stock">                        
+            <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse" data-bs-target="#stock"
+                aria-expanded="false" aria-controls="stock">
                 <i class="lni lni-archive"></i>
                 <span>Stock</span>
             </a>
@@ -56,116 +56,50 @@
         <!-- Clients Section -->
         <li class="sidebar-item">
             <a href="{% url 'listClients' %}" class="sidebar-link">
-                <i class="lni lni-handshake"></i>
+                <i class="lni lni-customer"></i>
                 <span>Client</span>
             </a>
         </li>
 
         <!-- Employés Section -->
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                data-bs-target="#auth" aria-expanded="false" aria-controls="auth">
+            <a href="{% url 'listEmployes' %}" class="sidebar-link">
                 <i class="lni lni-users"></i>
                 <span>Employé</span>
             </a>
-            <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                <li class="sidebar-item">
-                    <a href="{% url 'listEmployes' %}" class="sidebar-link">Liste</a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="{% url 'systemePointage' %}" class="sidebar-link">Pointage</a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="{% url 'Salaire' %}" class="sidebar-link">Calcul Salaire</a>
-                </li>
-            </ul>
+
         </li>
 
         <li class="sidebar-item">
-            <a href="" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                data-bs-target="#multi" aria-expanded="false" aria-controls="multi">
+            <a href="" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse" data-bs-target="#multi"
+                aria-expanded="false" aria-controls="multi" id="getDataButton">
                 <i class="lni lni-apartment"></i>
-                <span>Centre</span>
+                <span>Centres</span>
             </a>
             <ul id="multi" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                <li class="sidebar-item">
-                    <a href="{% url 'listCentres' %}" class="sidebar-link">
-                        <i class="lni lni-notepad"></i>
-                        <span>information centres</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse"
-                        data-bs-target="#multi-two1" aria-expanded="false" aria-controls="multi-two1">
-                        Centre1
-                    </a>
-                    <ul id="multi-two1" class="sidebar-dropdown list-unstyled collapse">
-                        <li class="sidebar-item">
-                            <a href="{% url 'analyseCentre1' %}" class="sidebar-link">Analyse</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="{% url 'TransfertRecuC1' %}" class="sidebar-link">Transfert Reçu</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="{% url 'venteC1' %}" class="sidebar-link">Vente</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse"
-                        data-bs-target="#multi-two2" aria-expanded="false" aria-controls="multi-two2">
-                        Centre2
-                    </a>
-                    <ul id="multi-two2" class="sidebar-dropdown list-unstyled collapse">
-                        <li class="sidebar-item">
-                            <a href="{% url 'analyseCentre2' %}" class="sidebar-link">Analyse</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="{% url 'TransfertRecuC2' %}" class="sidebar-link">Transfert Reçu</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="{% url 'venteC2' %}" class="sidebar-link">Vente</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse"
-                        data-bs-target="#multi-two3" aria-expanded="false" aria-controls="multi-two3">
-                        Centre3
-                    </a>
-                    <ul id="multi-two3" class="sidebar-dropdown list-unstyled collapse">
-                        <li class="sidebar-item">
-                            <a href="{% url 'analyseCentre3' %}" class="sidebar-link">Analyse</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="{% url 'TransfertRecuC3' %}" class="sidebar-link">Transfert Reçu</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="{% url 'venteC3' %}" class="sidebar-link">Vente</a>
-                        </li>
-                    </ul>
-                </li>
+
+
             </ul>
         </li>
 
         <!-- Ventes Section -->
         <li class="sidebar-item">
             <a href="{% url 'venteI' %}" class="sidebar-link">
-                <i class="lni lni-grow"></i>
-                <span>Ventes</span>
+                <i class="lni lni-coin"></i>
+                <span>Vente</span>
             </a>
         </li>
         <li class="sidebar-item">
             <a href="{% url 'Transfert' %}" class="sidebar-link">
-                <i class="lni lni-grow"></i>
-                <span>Transferts</span>
+                <i class="lni lni-delivery"></i>
+                                <span>Transferts</span>
             </a>
         </li>
         <!-- Achats Section -->
         <li class="sidebar-item">
             <a href="{% url 'achat' %}" class="sidebar-link">
-                <i class="lni lni-grow"></i>
-                <span>Achats</span>
+                <i class="lni lni-shopping-basket"></i>
+                                <span>Achat</span>
             </a>
         </li>
 
@@ -173,15 +107,15 @@
         <li class="sidebar-item">
             <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
                 data-bs-target="#Reglement" aria-expanded="false" aria-controls="Reglement">
-                <i class="lni lni-write"></i>
-                <span>Règlement</span>
+                <i class="lni lni-credit-cards"></i>
+                                <span>Règlement</span>
             </a>
             <ul id="Reglement" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                 <li class="sidebar-item">
-                    <a href="{% url 'histpymtachat' %}" class="sidebar-link">Payment Achat</a>
+                    <a href="{% url 'histpymtachat' %}" class="sidebar-link">Règlement solde fournisseur</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="{% url 'histpymtvente' %}" class="sidebar-link">Payement Vente</a>
+                    <a href="{% url 'histpymtvente' %}" class="sidebar-link">Règlement crédit client</a>
                 </li>
             </ul>
         </li>
@@ -190,7 +124,7 @@
         <li class="sidebar-item">
             <a href="{% url 'notification' %}" class="sidebar-link">
                 <i class="lni lni-popup"></i>
-                <span>Notifications  +{{ nb_notification }}</span>
+                <span>Notifications +{{ nb_notification }}</span>
             </a>
         </li>
 
@@ -213,4 +147,53 @@
     <div class="sidebar-footer">
         <!-- Footer Content -->
     </div>
+
 </aside>
+<!-- Assurez-vous d'inclure jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#getDataButton').click(function () {
+            $.ajax({
+                url: '/includes/side-bar.html/',  // Remplacez par l'URL de votre vue Django
+                type: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    // Vider le contenu précédent
+                    $('#multi').empty();
+
+                    // Parcourir les centres et générer les éléments HTML
+                    response.centers.forEach(function (centre) {
+                        var listItem = `
+    <li class="sidebar-item">
+                            <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse"
+                                data-bs-target="#multi-two-${centre.codeC}" aria-expanded="false" aria-controls="multi-two-${centre.codeC}">
+                                ${centre.designation_centre}
+                            </a>
+                            <ul id="multi-two-${centre.codeC}" class="sidebar-dropdown list-unstyled collapse">
+                                <li class="sidebar-item">
+                                    <a href="/Centre1/${centre.codeC}/" class="sidebar-link">Analyse Année Courante</a>
+                                </li>
+                                  <li class="sidebar-item">
+                                    <a href="/analyse_centre1/${centre.codeC}/" class="sidebar-link">Analyse Années Passées</a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="/transfertrecucentre1/${centre.codeC}/"  class="sidebar-link">Transfert Reçu</a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="/ventecentre1/${centre.codeC}/" class="sidebar-link">Vente</a>
+                                </li>
+                            </ul>
+                        </li>
+          `;
+                        $('#multi').append(listItem);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error('Erreur lors de la récupération des données:', error);
+                }
+            });
+        });
+    });
+</script>
